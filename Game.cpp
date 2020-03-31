@@ -64,7 +64,7 @@ void Game::LoadFile() {
             Pokemon* temp = new Pokemon(index, name, type, strongTo);
             m_list->InsertEnd(temp);
         }
-    } while (item.size() != NULL);
+    } while (item.size());
     pokemon.close();
 }
 
