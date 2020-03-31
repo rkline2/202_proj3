@@ -20,9 +20,9 @@ Game::Game(string fileName) {
     // Desc - Calls destructor for all linked lists in game
     // Preconditions - Linked lists populated
     // Postconditions - m_list, userPocket, and enemyPocket are all destructed
-Game::~Game(){
+Game::~Game() {
     delete m_list;
-    delete m_userPocket; 
+    delete m_userPocket;
     delete m_enemyPocket;
 
     m_list = nullptr;
@@ -36,7 +36,7 @@ Game::~Game(){
     // Preconditions - Input file passed and populated with Pokemon
     // Postconditions - m_list populated with Pokemon
 void Game::LoadFile() {
-    int index = 0;
+    int index = 1;
     string name = "";
     string type = "";
     string item = "";
@@ -45,11 +45,10 @@ void Game::LoadFile() {
     pokemon.open(m_filename);
     do
     {
-    getline(pokemon, item, ',');
+        // ignore the index 
+        getline(pokemon, item, ',');
         if (item.size() > 0) {
-            // index
-            index = stoi(item);
-
+            
             // name
             getline(pokemon, item, ',');
             name = item;
@@ -63,6 +62,7 @@ void Game::LoadFile() {
             strongTo = item;
             Pokemon* temp = new Pokemon(index, name, type, strongTo);
             m_list->InsertEnd(temp);
+            index++;
         }
     } while (item.size());
     pokemon.close();
@@ -76,7 +76,7 @@ void Game::ChooseTeam() {
     int usrNumLeft = 5;
     int cpuNumleft = 5;
     int askIndex = 0;
-    
+
     while (usrNumLeft > 0) {
         cout << "Here is a list of Pokemon you can choose from" << endl;
         cout << "---------------------------" << endl;
@@ -126,21 +126,21 @@ int Game::Menu() {
     // Fights continue until there are no remaining Pokemon in one of the lists
     // Preconditions - m_userPocket and m_enemyPocket must all be > 0 and populated
     // Postconditions - Returns result of battle back to Start (1=user win, 2=cpu win)
-int Game::Battle() { 
+int Game::Battle() {
     int round = 1, gameResult = 0;
     do
     {
         int usrChoice = 0;
         Pokemon cpuPoki = *m_enemyPocket->GetHead();
         Pokemon usrPoki = *m_userPocket->GetHead();
-        
+
         cout << "---------------------------" << endl;
         cout << "Round " << round << ":" << endl;
         cout << "CPU's Pokemon: " << cpuPoki << endl;
         cout << "Your Pokemon: " << usrPoki << endl;
         cout << "---------------------------" << endl;
         usrChoice = Menu();
-        switch(usrChoice)
+        switch (usrChoice)
         {
         case ATTACK: {
             int attackResult = m_userPocket->Attack(m_enemyPocket);
@@ -154,7 +154,7 @@ int Game::Battle() {
                 }
                 else {
                     m_userPocket->SwapPokemon(m_userPocket);
-                }  
+                }
             }
             else if (attackResult == CPU_POKI_DEAD) {
                 cout << cpuPoki.GetName() << " is knocked out!" << endl;
@@ -167,22 +167,22 @@ int Game::Battle() {
                     m_enemyPocket->Remove(cpuPoki.GetIndex());
                 }
             }
-        }    
-            round++;
-            break;
-            
+        }
+                   round++;
+                   break;
+
         case SWAP: {
             m_userPocket->SwapPokemon(m_userPocket);
         }
-            round++;
-            break;
+                 round++;
+                 break;
         case FORFEIT:
             gameResult = CPU_WIN;
             break;
         default:
             gameResult = 0;
             break;
-        }  
+        }
     } while (gameResult == 0);
     return gameResult;
 }
