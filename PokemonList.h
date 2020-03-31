@@ -96,4 +96,5 @@ private:
     Pokemon* m_head; //Node pointer pointing to first node in linked list
     int m_size; //Size of the linked list
 };
+
 #endif
