@@ -117,6 +117,7 @@ int Game::Menu() {
     return usrChoice;
 }
 
+
 // Name: Battle
     // Desc - Manages the battle between m_userPocket and m_enemyPocket.
     // Displays both the m_userPocket and m_enemyPocket
