@@ -152,13 +152,21 @@ int PokemonList::Attack(PokemonList*cpuPoki) {
         cpuHead->GetStrong() == m_head->GetType()) {
         cout << "It's super effective!" << endl;
 
-        cout << cpuHead->GetName() << " attacks "; 
-        cout << m_head->GetName() << "!" << endl;
-
-        cout << "It's super effective!" << endl;
-
+        // Changes the CPU's Pokemon health 
         cpuHead->SetHealth(cpuHealth - STRONG_DAMAGE);
-        m_head->SetHealth(usrHealth - STRONG_DAMAGE);
+
+        // Does nothing if the CPU's Poki is K.O.
+        if (cpuHead->GetHealth() <= 0) {}
+        
+        else {
+            cout << cpuHead->GetName() << " attacks ";
+            cout << m_head->GetName() << "!" << endl;
+
+            cout << "It's super effective!" << endl;
+
+            // Changes the user's Pokemon health 
+            m_head->SetHealth(usrHealth - STRONG_DAMAGE);
+        }
     
     }
 
@@ -166,29 +174,59 @@ int PokemonList::Attack(PokemonList*cpuPoki) {
     else if (m_head->GetStrong() == cpuHead->GetType()) {
         cout << "It's super effective!" << endl;
 
-        cout << cpuHead->GetName() << " attacks ";
-        cout << m_head->GetName() << "!" << endl;
-
+        // Changes the CPU's Pokemon health 
         cpuHead->SetHealth(cpuHealth - STRONG_DAMAGE);
-        m_head->SetHealth(usrHealth - DAMAGE2USER);
+
+        // Does nothing if the CPU's Poki is K.O.
+        if (cpuHead->GetHealth() <= 0) {}
+
+        else {
+            cout << cpuHead->GetName() << " attacks ";
+            cout << m_head->GetName() << "!" << endl;
+
+            // Changes the user's Pokemon health 
+            m_head->SetHealth(usrHealth - DAMAGE2USER);
+        }
+        
     }
 
     // If cpu poki is only strong against usr poki 
     else if (cpuHead->GetStrong() == m_head->GetType()) {
-        cout << cpuHead->GetName() << " attacks ";
-        cout << m_head->GetName() << "!" << endl;
-        cout << "It's super effective!" << endl;
+
+        // Changes the CPU's Pokemon health 
         cpuHead->SetHealth(cpuHealth - DAMAGE2ENEMY);
-        m_head->SetHealth(usrHealth - STRONG_DAMAGE);
+
+        // Does nothing if the CPU's Poki is K.O.
+        if (cpuHead->GetHealth() <= 0) {}
+
+        else {
+            cout << cpuHead->GetName() << " attacks ";
+            cout << m_head->GetName() << "!" << endl;
+            cout << "It's super effective!" << endl;
+
+            // Changes the user's Pokemon health 
+            m_head->SetHealth(usrHealth - STRONG_DAMAGE);
+        }
+        
     }
 
     // Normal attack
     else {
-        cout << cpuHead->GetName() << " attacks ";
-        cout << m_head->GetName() << "!" << endl;
+        
+        // Changes the CPU's Pokemon health 
         cpuHead->SetHealth(cpuHealth - DAMAGE2ENEMY);
-        m_head->SetHealth(usrHealth - DAMAGE2USER);
 
+        // Does nothing if the CPU's Poki is K.O.
+        if (cpuHead->GetHealth() <= 0) {}
+        
+        else {
+            cout << cpuHead->GetName() << " attacks ";
+            cout << m_head->GetName() << "!" << endl;
+
+            // Changes the user's Pokemon health 
+            m_head->SetHealth(usrHealth - DAMAGE2USER);
+        }
+  
     }
     // userhealth is less than 0
     if (m_head->GetHealth() <= 0) { return USR_POKI_DEAD; }
@@ -196,6 +234,7 @@ int PokemonList::Attack(PokemonList*cpuPoki) {
     // enemy health is lass than 0
     else if (cpuHead->GetHealth() <= 0) { return CPU_POKI_DEAD; }
     
+    // default return
     return 0; 
 }
 
