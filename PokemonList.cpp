@@ -65,16 +65,19 @@ void PokemonList::Display(){
         int index = tp->GetIndex();
         string name = tp->GetName();
         string type = tp->GetType();
+        int health = tp->GetHealth();
+        int nameSize = name.size();
+        int typeSize = type.size();
         
         cout << "Index: " << setw(NUM_SPACE) << index << " ";
         cout << "Name: "<< tp->GetName();
         // for-loop here for space
-        for (int i = 0; i <= (MAX_NAMESP - name.size()); i++) {
+        for (int i = 0; i <= (MAX_NAMESP - nameSize); i++) {
             cout << " ";
         }
         cout << "Type: " << tp->GetType();
         // for-loop here for space
-        for (int i = 0; i <= MAX_TYPESP - type.size(); i++) {
+        for (int i = 0; i <= (MAX_TYPESP - typeSize); i++) {
             cout << " ";
         }
         cout << "Health: " << tp->GetHealth();
