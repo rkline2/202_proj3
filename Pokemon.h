@@ -15,7 +15,9 @@
 using namespace std;
 
 //**Constants**
-const int MAX_HEALTH = 9; //Starting health for each Pokemon
+const int MAX_HEALTH = 9; // Starting health for each Pokemon
+const int MAX_NAMESP = 12; // Maximum amount of spaces for pokemon name 
+const int MAX_TYPESP = 10; // Maximum amount of spaces for pokemon type 
 
 class Pokemon {
 public:
