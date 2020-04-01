@@ -181,6 +181,8 @@ int Game::Battle() {
             gameResult = 0;
             break;
         }
+	// temp line
+	gameResult = USR_WIN;
     } while (gameResult == 0);
     return gameResult;
 }
