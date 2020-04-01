@@ -69,29 +69,6 @@ void Game::LoadFile() {
         index++;
     
     }
-    /*
-    do
-    {
-        // ignore the index 
-        getline(pokemon, item, ',');
-        if (item.size() > 0) {
-            
-            // gets the name
-            getline(pokemon, item, ',');
-            name = item;
-
-            // gets the type 
-            getline(pokemon, item, ',');
-            type = item;
-
-            // gets the strength 
-            getline(pokemon, item);
-            strongTo = item;
-            Pokemon* temp = new Pokemon(index, name, type, strongTo);
-            m_list->InsertEnd(temp);
-            index++;
-        }
-    } while (item.size() == NULL);*/
     pokemon.close();
 }
 
