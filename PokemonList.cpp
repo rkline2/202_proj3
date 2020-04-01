@@ -65,7 +65,6 @@ void PokemonList::Display(){
         int index = tp->GetIndex();
         string name = tp->GetName();
         string type = tp->GetType();
-        int health = tp->GetHealth();
         
         cout << "Index: " << setw(NUM_SPACE) << index << " ";
         cout << "Name: "<< tp->GetName();
