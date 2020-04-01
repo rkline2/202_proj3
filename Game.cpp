@@ -156,13 +156,11 @@ int Game::Battle() {
             }
             else if (attackResult == CPU_POKI_DEAD) {
                 cout << cpuPoki.GetName() << " is knocked out!" << endl;
+                m_enemyPocket->Remove(cpuPoki.GetIndex());
 
                 // checks if m_enemyPocket is empty
                 if (m_enemyPocket->GetHead() == NULL) {
                     gameResult = USR_WIN;
-                }
-                else {
-                    m_enemyPocket->Remove(cpuPoki.GetIndex());
                 }
             }
         }
