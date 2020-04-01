@@ -1,13 +1,25 @@
+/*****************************************
+** File:    Game.cpp
+** Project: CMSC 202 Project 3, Spring 2020
+** Author:  Rooklyn Kline
+** Date:    4/02/20
+** Section: 02
+** E-mail:  rkline2@umbc.edu
+**
+** This file contains all of the functions that are relevant to
+** the Pokemon game. It loads and stores all of the Pokemons  
+** in the main list, battles the user and returns the winner of the game 
+** to the proj3.cpp file.
+**
+***********************************************/
 #include "Game.h"
 #include <iostream>
 #include <iomanip>
 using namespace std;
 
-// Name: Game Constructor
-    // Desc - Creates a new game and sets m_filename based on string passed
-    // Additionally, makes m_list and userPoken = new PokemonLists
-    // Preconditions - Input file passed and populated with Pokemon
-    // Postconditions - m_filename, m_list, and userPocket created
+// Game Constructor
+    // Sets m_filename to the given parameter filename 
+    // Sets m_list, m_userPocket and m_enemyPocket as a new list 
 Game::Game(string fileName) {
     m_filename = fileName;
     m_list = new PokemonList;
@@ -16,10 +28,8 @@ Game::Game(string fileName) {
 }
 
 
-// Name: Game Destructor
-    // Desc - Calls destructor for all linked lists in game
-    // Preconditions - Linked lists populated
-    // Postconditions - m_list, userPocket, and enemyPocket are all destructed
+// Game Destructor
+    // Removes all linked lists in the game
 Game::~Game() {
     delete m_list;
     delete m_userPocket;
@@ -30,11 +40,8 @@ Game::~Game() {
     m_enemyPocket = nullptr;
 }
 
-// Name: LoadFile
-    // Desc - Opens file and reads in each Pokemon. Each Pokemon dynamically allocated
-    // and put into m_list
-    // Preconditions - Input file passed and populated with Pokemon
-    // Postconditions - m_list populated with Pokemon
+// LoadFile
+    // Given the filename, populates m_list with pokemon
 void Game::LoadFile() {
     int index = 1;
     string name = "";
@@ -49,15 +56,15 @@ void Game::LoadFile() {
         getline(pokemon, item, ',');
         if (item.size() > 0) {
             
-            // name
+            // gets the name
             getline(pokemon, item, ',');
             name = item;
 
-            // type 
+            // gets the type 
             getline(pokemon, item, ',');
             type = item;
 
-            // strength 
+            // gets the strength 
             getline(pokemon, item);
             strongTo = item;
             Pokemon* temp = new Pokemon(index, name, type, strongTo);
@@ -68,10 +75,9 @@ void Game::LoadFile() {
     pokemon.close();
 }
 
-// Name: ChooseTeam
-    // Desc - Allows user to choose team and populates m_userPocket
-    // Preconditions - m_list populated with Pokemon
-    // Postconditions - m_userPocket populated with Pokemon to battle
+// ChooseTeam
+    // Lets the user choose which Pokemon they want
+    // CPU's list is randomly populated with the remaining Pokemon
 void Game::ChooseTeam() {
     int usrNumLeft = 5;
     int cpuNumleft = 5;
@@ -88,6 +94,7 @@ void Game::ChooseTeam() {
             usrNumLeft--;
         }
     }
+    // fills the CPU's list with random Pokemon
     while (cpuNumleft > 0) {
         int randIndex = (rand() % NUM_POKI) + 1;
         if (m_list->Exist(randIndex)) {
@@ -103,10 +110,9 @@ void Game::ChooseTeam() {
     m_enemyPocket->Display();
 }
 
-// Name: Menu
-    // Desc - Displays menu and returns choice
-    // Preconditions - m_list, m_userPocket, and m_enemyPocket all populated
-    // Postconditions - Returns choice
+// Menu
+    // Gives the player three options to choose from
+    // Returns the user's choice  
 int Game::Menu() {
     int usrChoice = 0;
     cout << "Menu:" << endl;
@@ -118,14 +124,9 @@ int Game::Menu() {
 }
 
 
-// Name: Battle
-    // Desc - Manages the battle between m_userPocket and m_enemyPocket.
-    // Displays both the m_userPocket and m_enemyPocket
-    // For each round, makes sure each team has Pokemon. Makes Pokemon in head fight.
-    // Indicates if the round yields user win, enemy win, and if a pokemon was switched
-    // Fights continue until there are no remaining Pokemon in one of the lists
-    // Preconditions - m_userPocket and m_enemyPocket must all be > 0 and populated
-    // Postconditions - Returns result of battle back to Start (1=user win, 2=cpu win)
+// Battle
+    // Manages the battle between m_userPocket and m_enemyPocket
+    // Returns result of battle back to Start (1=user win, 2=cpu win)
 int Game::Battle() {
     int round = 1, gameResult = 0;
     do
@@ -187,19 +188,11 @@ int Game::Battle() {
     return gameResult;
 }
 
-// Name: Start
-    // Desc - Loads input file, allows user to choose their team, randomly populates the
-    // m_enemyPocket with remaining Pokemon and returns the result of the battle
-    // Preconditions - m_list, m_userPocket, and m_enemyPocket must all be PokemonLists
-    // Postconditions - Returns result of battle back to main
+// Start
+    // Returns result of battle back to main
 int Game::Start() {
     LoadFile();
     ChooseTeam();
     return Battle();
 }
 
-/*private:
-    PokemonList* m_list; //Master list of all Pokemon in game
-    PokemonList* m_userPocket; //Users list of Pokemon
-    PokemonList* m_enemyPocket; //CPU's list of Pokemon
-    string m_filename; //Name of the file passed from main*/
