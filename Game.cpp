@@ -144,6 +144,8 @@ int Game::Battle() {
             int attackResult = m_userPocket->Attack(m_enemyPocket);
             if (attackResult == USR_POKI_DEAD) {
                 cout << "Oh no! " << usrPoki.GetName() << " is knocked out!" << endl;
+                
+                // removes pokemon
                 m_userPocket->Remove(usrPoki.GetIndex());
 
                 // checks if m_userPocket is empty 
@@ -156,6 +158,8 @@ int Game::Battle() {
             }
             else if (attackResult == CPU_POKI_DEAD) {
                 cout << cpuPoki.GetName() << " is knocked out!" << endl;
+                
+                // removes pokemon
                 m_enemyPocket->Remove(cpuPoki.GetIndex());
 
                 // checks if m_enemyPocket is empty
