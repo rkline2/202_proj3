@@ -1,20 +1,32 @@
+/*****************************************
+** File:    Game.cpp
+** Project: CMSC 202 Project 3, Spring 2020
+** Author:  Rooklyn Kline
+** Date:    4/02/20
+** Section: 02
+** E-mail:  rkline2@umbc.edu
+**
+** This file contains functions that modify the 
+** Pokemon List for both the user and the CPU. 
+** Some of these modifications include inserting, 
+** removing, transfering a Pokemon from a linked list.
+** The file also contains the attack function which 
+** modifies the Pokemon's hp.
+**
+***********************************************/
 #include "PokemonList.h"
 #include <iostream>
 using namespace std;
 
-// Name: PokemonList
-    // Desc - Default constructor for the PokemonList (linked list)
-    // Preconditions - None
-    // Postconditions - Creates an empty PokemonList (linked list)
+// PokemonList Constructor
+    // Creates an empty PokemonList (linked list)
 PokemonList::PokemonList() {
     m_head = nullptr;
     m_size = 0;
 }
 
-// Name: ~PokemonList
-    // Desc - Destructor for the PokemonList (linked list)
-    // Preconditions - None
-    // Postconditions - Clears out a PokemonList (linked list)
+// ~PokemonList Destructor
+    // Clears out a PokemonList (linked list)
 PokemonList::~PokemonList() {
     Pokemon* curr = m_head;
     while (curr != NULL) {
@@ -24,12 +36,9 @@ PokemonList::~PokemonList() {
     }
 }
 
-// Name: InsertEnd
-    // Desc - Inserts an already dynamically allocated Pokemon to end of linked list
-    // Preconditions - PokemonList already created
-    // Postconditions - The passed Pokemon appears at the end of the list
+// InsertEnd
+    // Postconditions - Given the passed Pokemon, the Pokemon appears at the end of the list
 void PokemonList::InsertEnd(Pokemon* newPokemon){
-    // still need to connect the nodes together stopped here
     Pokemon* curr = m_head;
 
     if (curr == nullptr){
@@ -47,17 +56,12 @@ void PokemonList::InsertEnd(Pokemon* newPokemon){
     
 }
 
-// Name: Display
-    // Desc - Iterates over PokemonList and displays each Pokemon formatted as in output
-    // Preconditions - PokemonList already created and has Pokemon
-    // Postconditions - Displayed Pokemon information
+// Display
+    // Displays Pokemon's attributes 
 void PokemonList::Display(){
     Pokemon* tp = m_head;
-    // will need to use the special cout operator stopped here 
     while (tp != NULL) {
-        int max_nameSp = 12;
-        int max_typeSp = 10;
-
+       
         int index = tp->GetIndex();
         string name = tp->GetName();
         string type = tp->GetType();
@@ -65,13 +69,13 @@ void PokemonList::Display(){
         
         cout << "Index: " << setw(NUM_SPACE) << index << " ";
         cout << "Name: "<< tp->GetName();
-        // for-loop here
-        for (int i = 0; i <= (max_nameSp - name.size()); i++) {
+        // for-loop here for space
+        for (int i = 0; i <= (MAX_NAMESP - name.size()); i++) {
             cout << " ";
         }
         cout << "Type: " << tp->GetType();
-        // for-loop here
-        for (int i = 0; i <= max_typeSp - type.size(); i++) {
+        // for-loop here for space
+        for (int i = 0; i <= MAX_TYPESP - type.size(); i++) {
             cout << " ";
         }
         cout << "Health: " << tp->GetHealth();
@@ -80,13 +84,9 @@ void PokemonList::Display(){
     }
 }
 
-// Name: Transfer
-    // Desc - Searches for a Pokemon with a specific index. If found,
-    // creates a new Pokemon and copies it into the PokemonList passed in
-    // Preconditions - int is the index of the desired Pokemon and
-    // PokemonList is the destination
-    // Postconditions - Adds new Pokemon to the destination list and removes it from
-    // the source
+// Transfer
+    // Given the index and Pokemon list, adds new Pokemon 
+    // to the destination list and removes it from the source
 void PokemonList::Transfer(int askIndex, PokemonList* userPkt){
     Pokemon* curr = m_head;
     Pokemon* newPoki;
@@ -99,23 +99,23 @@ void PokemonList::Transfer(int askIndex, PokemonList* userPkt){
     Remove(askIndex);
 }
 
-// Name: Remove (int)
-    // Desc - Searches for a Pokemon with a specific index. If found,
-    // removes it from the linked list
-    // Preconditions - int is the index of the desired Pokemon
-    // Postconditions - Removes Pokemon from linked list
+// Remove 
+    // Given the index, removes Pokemon from linked list
 void PokemonList::Remove(int pokiIndex){
     Pokemon* curr = m_head;
     Pokemon* prev = m_head;
+    // if the Pokemon is at the beginning of the list
     if(curr->GetIndex() == pokiIndex){
         m_head = m_head->GetNext();
         delete curr; 
     }
     else {
+        // sorts through the linked list
         while (curr->GetIndex() != pokiIndex) {
             prev = curr;
             curr = curr->GetNext();
         }
+        // if the Pokemon is at the end of the list
         if (curr->GetNext() == NULL) {
             prev->SetNext(nullptr);
             delete curr;
@@ -128,31 +128,25 @@ void PokemonList::Remove(int pokiIndex){
     }
 }
 
-// Name: GetSize
-    // Desc - Returns the size of the linked list
-    // Preconditions - PokemonList is populated with Pokemon
-    // Postconditions - Returns the size of the linked list
+// GetSize
+    // Returns the size of the linked list
 int PokemonList::GetSize() { return m_size; }
 
-// Name: GetHead
-    // Desc - Returns the Pokemon at the head of the linked list
-    // Preconditions - PokemonList is populated with Pokemon
-    // Postconditions - Returns the Pokemon at the head of the linked list
+// GetHead
+    // Returns the Pokemon at the head of the linked list
 Pokemon* PokemonList::GetHead() { return m_head; }
 
-// Name: Attack(PokemonList)
-    // Desc - Passes an enemy pocket to the user's pocket to attack
-    // User always attacks the enemy Pokemon in this game
-    // Preconditions - This list is populated and enemy list is populated
-    // Postconditions - Does damage to the user Pokemon and enemy Pokemon
+// Attack
+    // Given the enemy list, does damage to the user Pokemon and enemy Pokemon
     // and updates their health. Returns 2 if enemy Pokemon is less than 0
-    // Returns 2 if user's health is less than 0 else returns 0.
+    // Returns 1 if user's health is less than 0 else returns 0.
 int PokemonList::Attack(PokemonList*cpuPoki) {
     Pokemon* cpuHead = cpuPoki->GetHead();
     int cpuHealth = cpuHead->GetHealth();
     int usrHealth = m_head->GetHealth();
 
     cout << m_head->GetName() << " attacks " << cpuHead->GetName() << "!" << endl;
+
     // If usr poki is strong against cpu poki and cpu poki is strong against usr poki 
     if (m_head->GetStrong() == cpuHead->GetType() && 
         cpuHead->GetStrong() == m_head->GetType()) {
@@ -205,11 +199,8 @@ int PokemonList::Attack(PokemonList*cpuPoki) {
     return 0; 
 }
 
-// Name: SwapPokemon
-    // Desc - Allows user to move a Pokemon from any position into the first position
-    // Special cases: Empty list, Pokemon chosen at m_head or choice doesn't exist
-    // Preconditions - Linked list is populated
-    // Postconditions - User selects a Pokemon and it is moved into the first position
+// SwapPokemon
+    // Given the list, user selects a Pokemon and it is moved into the first position
 void PokemonList::SwapPokemon(PokemonList*pokiList){
     int inputVal = 0;
     while (inputVal == 0) {
@@ -217,16 +208,19 @@ void PokemonList::SwapPokemon(PokemonList*pokiList){
         pokiList->Display();
         cin >> inputVal;
         if (pokiList->Exist(inputVal)) {
+            // if the Pokemon is at the beginning of the list
             if (m_head->GetIndex() == inputVal) {
                 cout << "Choice is head" << endl;
             }
             else {
                 Pokemon* curr = m_head;
                 Pokemon* prev = m_head;
+                // sorts through the linked list
                 while (inputVal != curr->GetIndex()) {
                     prev = curr;
                     curr = curr->GetNext();
                 }
+                // if the Pokemon is at the end of the list
                 if (curr->GetNext() == nullptr) {
                     prev->SetNext(nullptr);
                     curr->SetNext(m_head);
@@ -243,15 +237,15 @@ void PokemonList::SwapPokemon(PokemonList*pokiList){
     }
 }
 
-// Name: Exist(int)
-    // Desc - Iterates through linked list looking for a specific index of a Pokemon
-    // Preconditions - PokemonList is populated with Pokemon
-    // Postconditions - Returns true if found else false
+// Exist
+    // Given the index of the Pokemon, returns true if found else false
 bool PokemonList::Exist(int usrIndex){
     Pokemon* curr = m_head;
+    // if the Pokemon is at the beginning of the list
     if (curr->GetIndex() == usrIndex) {
         return true;
     }
+    // sorts through the linked list
     while (curr != NULL) {
         if (usrIndex == curr->GetIndex()) {
             return true;
@@ -261,7 +255,3 @@ bool PokemonList::Exist(int usrIndex){
     return false;
     
 }
-
-/*private:
-    Pokemon* m_head; //Node pointer pointing to first node in linked list
-    int m_size; //Size of the linked list*/
