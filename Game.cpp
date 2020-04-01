@@ -50,6 +50,26 @@ void Game::LoadFile() {
     string strongTo = "";
     ifstream pokemon;
     pokemon.open(m_filename);
+    while (getline(pokemon, item, ',')) {
+
+        // gets the name
+        getline(pokemon, item, ',');
+        name = item;
+
+        // gets the type 
+        getline(pokemon, item, ',');
+        type = item;
+
+        // gets the strength 
+        getline(pokemon, item);
+        strongTo = item;
+
+        Pokemon* temp = new Pokemon(index, name, type, strongTo);
+        m_list->InsertEnd(temp);
+        index++;
+    
+    }
+    /*
     do
     {
         // ignore the index 
@@ -71,7 +91,7 @@ void Game::LoadFile() {
             m_list->InsertEnd(temp);
             index++;
         }
-    } while (item.size());
+    } while (item.size() == NULL);*/
     pokemon.close();
 }
 
