@@ -119,7 +119,7 @@ int Game::Menu() {
     cout << "1. Attack" << endl << "2. Swap" << endl << "3. Forfeit" << endl;
     cout << "---------------------------" << endl;
     cin >> usrChoice;
-
+    cout << "---------------------------" << endl;
     return usrChoice;
 }
 
@@ -150,7 +150,7 @@ int Game::Battle() {
                 m_userPocket->Remove(usrPoki.GetIndex());
 
                 // checks if m_userPocket is empty 
-                if (m_userPocket == NULL) {
+                if (m_userPocket->GetHead() == NULL) {
                     gameResult = CPU_WIN;
                 }
                 else {
@@ -161,7 +161,7 @@ int Game::Battle() {
                 cout << cpuPoki.GetName() << " is knocked out!" << endl;
 
                 // checks if m_enemyPocket is empty
-                if (m_enemyPocket == NULL) {
+                if (m_enemyPocket->GetHead() == NULL) {
                     gameResult = USR_WIN;
                 }
                 else {
