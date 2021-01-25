@@ -7,7 +7,7 @@ Your assignment is to build an application that can allow us to battle two linke
   3.	The m_list holds all of the Pokémon for the entire game. A pocket is a linked list representing a team. The m_userPocket holds the user’s Pokémon and the m_enemyPocket holds the enemy Pokémon.
   4.	The data file (proj3_data.txt) is loaded via command line argument (included in the provided makefile and proj3.cpp). 
  
-Input File Details:
+**Input File Details:**<br>
 149 (idex), Dragonite (name), Dragon (type), Electric (strong against)
 
   5.	When a Pokémon is added to either the m_userPocket or m_enemyPocket, it is permantently removed from m_list.
